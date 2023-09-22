@@ -7,8 +7,8 @@
   tasks:                              # List of tasks to execute
   - name: Install nginx server        # Task name
     apt:                              # module that we use for executing this task: apt
-      name: nginx
-      state: latest
+      name: nginx=1.18.0-0ubuntu1
+      state: present
   - name: start nginx server          # Task name
     service:                          # module that we use for executing this task: service
       name: nginx
