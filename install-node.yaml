@@ -16,22 +16,26 @@
   hosts: 123.456.789.000
   tasks:
     - name: Copy nodejs folder to a server
-      copy:
+      copy:         # module copy
         src: /path/to/file/on/local/machine/nodejs-app-1.0.0.tgz
         dst: /path/on/target/machine/nodejs-app-1.0.0.tgz
     - name: Unpack the nodejs tar file
-      unarchive:
+      unarchive:    # module unarchive
         src: /path/on/target/machine/nodejs-app-1.0.0.tgz
         dest: /root/
         remote_src: yes
     - name: Install dependencies
-      npm:    # you can also use community.general.npm
+      npm:    # you can also use community.general.npm, module npm
         path: /root/package
     - name: Start the application
-      command:
+      command:    # module command
         chdir: /root/package/server
         cmd: node server
       asynch: 1000    # asynch and poll are play's attributes - used to execute play asynchronously
       poll: 0         # so that the playbook doesn't hang because "node server" process is executing
+    - name: Ensure app is running
+      shell: ps aux | grep node   # module shell, less secure than command but allows full shell syntax
+      register: app_status    # register is used to store the result of task execution
+    - debug: msg={{app_status.stdout_lines}}  # debug module is used to print out stuff; {{}} is used to reference a variable
 
 # ansible-playbook -i hosts install-node.yaml   to run playbook
