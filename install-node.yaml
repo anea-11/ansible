@@ -12,8 +12,19 @@
         - nodejs
         - npm
         
+- name: Create new linux user
+  hosts: 123.456.789.000
+  tasks:
+    - name: Create linux user
+      user:   # module user
+      name: nodejsapp
+      comment: User for nodejs app
+      group: admin
+
 - name: Deploy nodejs app
   hosts: 123.456.789.000
+  become: True
+  become_user: nodejsapp    # this is how you specify that you want to connect to target with user nodejsapp
   tasks:
     - name: Copy nodejs folder to a server
       copy:         # module copy
@@ -22,14 +33,14 @@
     - name: Unpack the nodejs tar file
       unarchive:    # module unarchive
         src: /path/on/target/machine/nodejs-app-1.0.0.tgz
-        dest: /root/
+        dest: home/nodejsapp/
         remote_src: yes
     - name: Install dependencies
       npm:    # you can also use community.general.npm, module npm
-        path: /root/package
+        path: /home/nodejsapp/package
     - name: Start the application
       command:    # module command
-        chdir: /root/package/server
+        chdir: /home/nodejsapp/package/server
         cmd: node server
       asynch: 1000    # asynch and poll are play's attributes - used to execute play asynchronously
       poll: 0         # so that the playbook doesn't hang because "node server" process is executing
