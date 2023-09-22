@@ -27,7 +27,6 @@
   become_user: nodejsapp    # this is how you specify that you want to connect to target with user nodejsapp
   vars: 
     - node-app-path: /path/on/local/machine
-    - dst_dir: /home/nodejsapp
   tasks:
     - name: Copy nodejs folder to a server
       copy:         # module copy
@@ -53,3 +52,6 @@
     - debug: msg={{app_status.stdout_lines}}  # debug module is used to print out stuff; {{}} is used to reference a variable
 
 # ansible-playbook -i hosts install-node.yaml   to run playbook
+
+# Passing variables from command line:
+# ansible-playbook -i hosts install-node.yaml -e "dst_dir=/home/nodejsapp"
