@@ -1,0 +1,4 @@
+node-app-path: /path/on/local/machine
+dst_dir: /home/nodejsapp
+
+# Variables can be defined in vars file;

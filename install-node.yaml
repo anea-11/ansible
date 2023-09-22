@@ -25,8 +25,8 @@
   hosts: 123.456.789.000
   become: True
   become_user: nodejsapp    # this is how you specify that you want to connect to target with user nodejsapp
-  vars: 
-    - node-app-path: /path/on/local/machine
+  vars_files:
+    - vars.yaml             # you must reference file with vars in every play that uses some of the variables
   tasks:
     - name: Copy nodejs folder to a server
       copy:         # module copy
