@@ -17,6 +17,13 @@ ansible_user=root
 ansible_ssh_private_key_file=~/.ssh/id_rsa 
 ansible_user=root
 
+[ec2]
+ec2-15-188-239-5.eu-west-3.compute.amazonaws.com    # dns names can also be used, not just ip addresses
+
+[ec2:vars]
+ansible_ssh_private_key_file=~/Downloads/ansible.pem
+ansible_user=ec2-user
+
 # Ansible ad-hoc commands are a fast way to interact with desired servers:
 # ansible [pattern] -m [module] -a "[module options]"
 # ansible all -i hosts -m ping  : ping  all targets from inventory list "hosts"
