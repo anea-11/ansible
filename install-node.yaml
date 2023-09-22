@@ -24,5 +24,14 @@
         src: /path/on/target/machine/nodejs-app-1.0.0.tgz
         dest: /root/
         remote_src: yes
+    - name: Install dependencies
+      npm:    # you can also use community.general.npm
+        path: /root/package
+    - name: Start the application
+      command:
+        chdir: /root/package/server
+        cmd: node server
+      asynch: 1000    # asynch and poll are play's attributes - used to execute play asynchronously
+      poll: 0         # so that the playbook doesn't hang because "node server" process is executing
 
 # ansible-playbook -i hosts install-node.yaml   to run playbook
