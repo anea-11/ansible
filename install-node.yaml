@@ -1,0 +1,28 @@
+# Example playbook for installing node and npm (play 1)
+# And deploying a nodejs app on that server (play 2)
+---
+- name: Install node and npm
+  hosts: 123.456.789.000
+  tasks:
+    - name: Update apt repo and cache
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+    - name: Install nodejs and npm
+      apt:
+        pkg:
+        - nodejs
+        - npm
+        
+- name: Deploy nodejs app
+  hosts: 123.456.789.000
+  tasks:
+    - name: Copy nodejs folder to a server
+      copy:
+        src: /path/to/file/on/local/machine/nodejs-app-1.0.0.tgz
+        dst: /path/on/target/machine/nodejs-app-1.0.0.tgz
+    - name: Unpack the nodejs tar file
+      unarchive:
+        src: /path/on/target/machine/nodejs-app-1.0.0.tgz
+        dest: /root/
+        remote_src: yes
+
+# ansible-playbook -i hosts install-node.yaml   to run playbook
