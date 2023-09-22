@@ -2,13 +2,20 @@
 # Default location for this file is /etc/ansible/hosts
 
 [webservers]    
-10.24.0.1       ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_user=root    # for each target, ansible needs to know which ssh key to use to authenticate
-10.24.0.2       ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_user=root    # and which user to use (root in this example)
-  
-[databases]
-10.24.0.7       ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_user=root
-10.24.0.8       ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_user=root
+10.24.0.1
+10.24.0.2
 
+[webservers:vars]   # these vars are used for all "webservers" targets
+ansible_ssh_private_key_file=~/.ssh/id_rsa 
+ansible_user=root
+
+[databases]
+10.24.0.7
+10.24.0.8
+
+[databases:vars]    # these vars are used for all "databases" targets
+ansible_ssh_private_key_file=~/.ssh/id_rsa 
+ansible_user=root
 
 # Ansible ad-hoc commands are a fast way to interact with desired servers:
 # ansible [pattern] -m [module] -a "[module options]"
