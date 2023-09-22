@@ -1,0 +1,18 @@
+---           # Ansible playbooks usually start with ---
+
+# A playbook is a LIST OF PLAYS
+
+- name: Configure nginx web server    # First play in the list   (- denotes a list in YAML)
+  host: webservers                    # Execute play on webserver hosts
+  tasks:                              # List of tasks to execute
+  - name: Install nginx server        # Task name
+    apt:                              # module that we use for executing this task: apt
+      name: nginx
+      state: latest
+  - name: start nginx server          # Task name
+    service:                          # module that we use for executing this task: service
+      name: nginx
+      state: started
+
+
+# ansible-playbook -i hosts demo-playbook.yaml
